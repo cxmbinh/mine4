@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .game {
+        width: 300px;
+        margin: 50px auto;
+      }
+      .game h1 {
+        text-align: center;
+      }
+      .game .guess {
+        width: 100%;
+        margin-top: 20px;
+      }
+      .game .guess input {
+        width: 100%;
+        padding: 10px;
+        font-size: 24px;
+        text-align: center;
+      }
+      .game .guess button {
+        width: 100%;
+        padding: 10px;
+        font-size: 24px;
+        background: #5fde5b;
+        color: #333;
+        border: none;
+        border-radius: 5px;
+      }
+      .game .guess button:hover {
+        background: #47c947;
+      }
+      .game .feedback {
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+      }
+      .game .feedback p {
+        font-size: 24px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game">
+      <h1>Guessing Game, Guessing a number from 1-300</h1>
+      <div class="guess">
+        <input type="text" id="guess-input" placeholder="Enter your guess">
+        <button id="guess-button">Submit</button>
+      </div>
+      <div class="feedback">
+        <p id="feedback-text"></p>
+      </div>
+    </div>
+
+    <script>
+      const min = 1;
+      const max = 300;
+      let number = Math.floor(Math.random() * (max - min + 1)) + min;
+      let feedbackText = document.getElementById('feedback-text');
+      let input = document.getElementById('guess-input');
+      let button = document.getElementById('guess-button');
+      let attemps = 0
+
+      function checkGuess(guess) {
+        attemps +=1
+
+        if (isNaN(guess) || guess < min || guess > max) {
+          feedbackText.textContent = 'Invalid guess';
+          return;
+        }
+
+
+        else if (guess == number) {
+          if(attemps > 80){
+            feedbackText.textContent = 'Correct! You win!'+' with'+ attemps +'attemps'+'.  Nhung ma ban ngu hon cho';
+          }
+          else if(  attemps <=80 && attemps >=50){
+            feedbackText.textContent = 'Correct! You win!'+' with'+ attemps +'attemps'+'.  Ban cung kha dc, xung dang co ny';
+          }
+          else{
+            feedbackText.textContent = 'Correct! You win!'+' with'+ attemps +'attemps'+' . Wow ban gioi qua, nen ban bi FA ca doi hahahahh ';
+          }
+
+          input.disabled = true;
+          button.disabled = true;
+          return;
+        }
+
+        
+        else if(guess>=100 && number <100){
+          feedbackText.textContent = 'The answer was 2 chữ số';
+        }
+        else if(guess<100 && number >=100){
+          feedbackText.textContent = 'The answer was 3 chữ số';
+        }
+        else if(number%2 == 0 && guess %2 !==0){
+          feedbackText.textContent = 'The answer was even';
+        }
+        else if(number%3 == 0 && guess%3 !==0){
+          feedbackText.textContent = 'The answer was chia het cho 3';
+        }
+        else if(number%5 == 0 && guess%5 !==0){
+          feedbackText.textContent = 'The answer was chia het cho 5';
+        }
+        else if (guess > number) {
+          feedbackText.textContent = 'Your guess is too high';
+        } else {
+          feedbackText.textContent = 'Your guess is too low';
+        }
+      }
+
+      input.addEventListener('input', function() {
+        checkGuess(input.value);
+      });
+
+      button.addEventListener('click', function() {
+        checkGuess(input.value);
+      });
+      console.log(number)
+    </script>
+  </body>
+</html>
